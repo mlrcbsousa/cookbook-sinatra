@@ -1,3 +1,18 @@
-<p>
-  I'm in a <em>view</em>!
-</p>
+<!-- views/index.erb -->
+
+<p><% Time.now %></p>
+<h2>
+  -- Here are all your Recipes --
+</h2>
+<ul>
+  <% @recipes.each do |recipe| %>
+    <li>
+      <!-- marked = recipe.marked? ? "\u{2705}" : ' ' -->
+      <!--  "#{i + 1}. [#{marked}] #{recipe.title} (#{recipe.time} mins) -- #{recipe.diff}" -->
+      <!-- [#{marked}]  -->
+      <%= recipe.to_s %>
+    </li>
+  <% end %>
+</ul>
+
+<a href="./new">Add a Recipe</a>
