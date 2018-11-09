@@ -8,5 +8,9 @@ configure :development do
 end
 
 get '/' do
-  'Other stuff random stuff all the stuffs'
+  erb :index
+end
+
+get '/about' do
+  erb :about
 end
