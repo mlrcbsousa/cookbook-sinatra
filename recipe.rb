@@ -8,7 +8,7 @@ class Recipe
     @method = attributes[:method]
     @difficulty = attributes[:difficulty]
     @time = attributes[:time]
-    @marked = attributes[:marked]
+    @marked = attributes[:marked] || false
   end
 
   def mark_done
@@ -22,7 +22,7 @@ class Recipe
   # --> View
 
   def to_s
-    "#{@title} (#{@time} mins) -- #{@difficulty}"
+    "|#{marked? ? "\u{2705}" : "\u{2B1C}"}| #{@title} (#{@time} mins) - #{@difficulty}"
   end
 
   # --> Writing

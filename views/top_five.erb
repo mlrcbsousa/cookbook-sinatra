@@ -1,0 +1,14 @@
+<!-- views/top_five.erb -->
+
+<h2>_ Top 5 picks to Import</h2>
+
+<ol>
+
+  <% @top_five.each do |recipe| %>
+    <li>
+      <%= recipe[0] %> /
+      <a href="/choice?title=<%= recipe[0] %>&path=<%= recipe[1] %>">import</a>
+    </li>
+  <% end %>
+
+</ol>

@@ -3,6 +3,8 @@
 # Gems
 require 'better_errors'
 require 'csv'
+require 'nokogiri'
+require 'open-uri'
 require 'pry-byebug'
 require 'sinatra'
 require 'sinatra/reloader' if development?
@@ -18,71 +20,49 @@ configure :development do
   BetterErrors.application_root = File.expand_path(__dir__)
 end
 
+# Load constants
 COOKBOOK = Cookbook.new('./recipes.csv')
+SCRAPE = Scrape.new
 
 # 1. List all recipes - @controller.list
 get '/' do
   @recipes = COOKBOOK.all
-
   erb :index
 end
 
 # 2. Add a recipe - @controller.add
+get '/new' do
+  erb :new
+end
+
+post '/recipes' do
+  COOKBOOK.add(Recipe.new(params))
+  redirect '/'
+end
+
 # 3. Delete a recipe - @controller.delete
+get '/destroy/:index' do
+  COOKBOOK.delete(params[:index].to_i)
+  redirect '/'
+end
+
 # 4. Mark a recipe as done - @controller.mark
-
-  # def ask_for_string(string)
-  #   puts ""
-  #   puts "What is the recipe #{string}?"
-  #   print '> '
-  #   gets.chomp
-  # end
-
-  # def ask_index
-  #   puts ""
-  #   puts 'What is the recipe number?'
-  #   print '> '
-  #   gets.chomp.to_i - 1
-  # end
-
-get '/about' do
-  erb :about
+get '/mark/:index' do
+  COOKBOOK.mark_done(params[:index].to_i)
+  redirect '/'
 end
 
-post '/' do
-  p ".. create something .."
+# 5. Import recipes from LetsCookFrench - @controller.import
+get '/import' do
+  erb :import
 end
 
-get '/team/:username' do
-  # puts params[:username]
-  "The username is #{params[:username]}"
+post '/top_five' do
+  @top_five = SCRAPE.top_five(params[:keyword])
+  erb :top_five
 end
 
-# # 5. Import recipes from LetsCookFrench - @controller.import
-#   # --------------> Importing
-
-#   def ask_for_keyword
-#     puts 'What ingredient would you like a recipe for?'
-#     print '> '
-#     gets.chomp
-#   end
-
-#   def list_five(top_five, keyword)
-#     puts ""
-#     puts "Looking for #{keyword} on LetsCookFrench..."
-#     puts ""
-#     top_five.each_with_index { |title, i| puts "#{i + 1}. #{title}" }
-#     puts ""
-#   end
-
-#   def ask_index_import
-#     puts "Which recipe would you like to import? (enter index)"
-#     print '> '
-#     gets.chomp.to_i - 1
-#   end
-
-#   def importing(title)
-#     puts ""
-#     puts "Importing \"#{title}\"..."
-#     puts ""
-#   end
+get '/choice' do
+  COOKBOOK.add(Recipe.new(SCRAPE.chosen(params[:title], params[:path])))
+  redirect '/'
+end

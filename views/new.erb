@@ -1,0 +1,33 @@
+<!-- views/new.erb -->
+
+<h2>_ Add a new Recipe to your Cookbook</h2>
+<br>
+
+<form action="/recipes" method="POST">
+
+  Title:
+  <input type="text" name="title"><br><br>
+
+  Ingredients:<br>
+  <textarea name="ingredients" rows="3" cols="80">
+  </textarea><br><br>
+
+  Method:<br>
+  <textarea name="method" rows="6" cols="80">
+  </textarea><br><br>
+
+  Difficulty:<br>
+  <select name="difficulty">
+    <option value="Very hard">Very hard</option>
+    <option value="Hard">Hard</option>
+    <option value="Moderate" selected>Moderate</option>
+    <option value="Easy">Easy</option>
+    <option value="Very easy">Very easy</option>
+  </select><br><br>
+
+  Total time in minutes (min: 1):<br>
+  <input type="number" name="time" min="1"><br><br>
+
+  <input type="submit" value="Add">
+  <input type="reset" value="Clear">
+</form>

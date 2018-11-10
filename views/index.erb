@@ -1,18 +1,20 @@
 <!-- views/index.erb -->
 
-<p><% Time.now %></p>
-<h2>
-  -- Here are all your Recipes --
-</h2>
+<h2>_ Here are all your Recipes</h2>
+
 <ul>
-  <% @recipes.each do |recipe| %>
+
+  <% @recipes.each_with_index do |recipe, index| %>
     <li>
-      <!-- marked = recipe.marked? ? "\u{2705}" : ' ' -->
-      <!--  "#{i + 1}. [#{marked}] #{recipe.title} (#{recipe.time} mins) -- #{recipe.diff}" -->
-      <!-- [#{marked}]  -->
-      <%= recipe.to_s %>
+      <a href="/mark/<%= index %>">done</a>
+      <%= recipe.to_s %> /
+      <a href="/destroy/<%= index %>">destroy</a>
     </li>
   <% end %>
+
 </ul>
 
-<a href="./new">Add a Recipe</a>
+<p>
+  <a href="./new">Add</a> /
+  <a href="./import">Import</a>
+</p>
